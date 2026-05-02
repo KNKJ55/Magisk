@@ -17,12 +17,8 @@ on:
 
 jobs:
   build:
-    name: Build on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-latest, windows-latest, macOS-latest ]
+    name: Build
+    runs-on: ubuntu-latest
 
     steps:
       - name: Check out
@@ -41,13 +37,6 @@ jobs:
         with:
           python-version: '3.9'
           
-      - name: Install GNU make
-        if: runner.os == 'macOS'
-        shell: bash
-        run: |
-          brew install make
-          echo 'GNUMAKE=gmake' >> "$GITHUB_ENV"
-
       - name: Set up GitHub env
         run: |
           ndk_ver=$(sed -n 's/^magisk.fullNdkVersion=//p' gradle.properties)
@@ -73,7 +62,6 @@ jobs:
 
       # Only upload artifacts built on Linux
       - name: Upload build artifact
-        if: runner.os == 'Linux'
         uses: actions/upload-artifact@v7
         with:
           name: ${{ github.sha }}
