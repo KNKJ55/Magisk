@@ -55,14 +55,16 @@ ui_print "- Target image: $BOOTIMAGE"
 # Detect version and architecture
 api_level_arch_detect
 
-ui_print "- Device platform: $ABI"
+ui_print "- Device platform: $ARCH"
 
-BINDIR=$INSTALLER/lib/$ABI
+BINDIR=$INSTALLER/lib/$ABILONG
+[ -d "$BINDIR" ] || BINDIR=$INSTALLER/lib/$ARCH32
+[ -d "$BINDIR" ] || BINDIR=$INSTALLER/lib/armeabi-v7a
 cd $BINDIR
 for file in lib*.so; do mv "$file" "${file:3:${#file}-6}"; done
 cd /
+chmod -R 755 $CHROMEDIR $BINDIR
 cp -af $CHROMEDIR/. $BINDIR/chromeos
-chmod -R 755 $BINDIR
 
 ############
 # Uninstall
