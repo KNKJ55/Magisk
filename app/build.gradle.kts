@@ -28,7 +28,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         versionName = Config.version
         versionCode = Config.versionCode
-        ndk.abiFilters("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+        ndk.abiFilters("armeabi-v7a", "arm64-v8a")
     }
 
     buildTypes {
@@ -86,16 +86,6 @@ val syncLibs by tasks.registering(Sync::class) {
             rename { if (it == "magisk") "libmagisk64.so" else "lib$it.so" }
         }
     }
-    into("x86") {
-        from(rootProject.file("native/out/x86")) {
-            include("busybox", "magiskboot", "magiskinit", "magisk")
-            rename { if (it == "magisk") "libmagisk32.so" else "lib$it.so" }
-        }
-        from(rootProject.file("native/out/x86_64")) {
-            include("magisk")
-            rename { if (it == "magisk") "libmagisk64.so" else "lib$it.so" }
-        }
-    }
     into("arm64-v8a") {
         from(rootProject.file("native/out/arm64-v8a")) {
             include("busybox", "magiskboot", "magiskinit", "magisk")
@@ -105,21 +95,6 @@ val syncLibs by tasks.registering(Sync::class) {
             include("magisk")
             rename { if (it == "magisk") "libmagisk32.so" else "lib$it.so" }
         }
-    }
-    into("x86_64") {
-        from(rootProject.file("native/out/x86_64")) {
-            include("busybox", "magiskboot", "magiskinit", "magisk")
-            rename { if (it == "magisk") "libmagisk64.so" else "lib$it.so" }
-        }
-        from(rootProject.file("native/out/x86")) {
-            include("magisk")
-            rename { if (it == "magisk") "libmagisk32.so" else "lib$it.so" }
-        }
-    }
-    onlyIf {
-        if (inputs.sourceFiles.files.size != 16)
-            throw StopExecutionException("Please build binaries first! (./build.py binary)")
-        true
     }
 }
 

@@ -57,7 +57,7 @@ except FileNotFoundError:
     error('Please install JDK and make sure \'javac\' is available in PATH')
 
 cpu_count = multiprocessing.cpu_count()
-archs = ['armeabi-v7a', 'x86', 'arm64-v8a', 'x86_64']
+archs = ['armeabi-v7a', 'arm64-v8a']
 default_targets = ['magisk', 'magiskinit', 'magiskboot', 'busybox']
 support_targets = default_targets + ['magiskpolicy', 'resetprop', 'test']
 
@@ -348,7 +348,7 @@ def build_apk(args, module):
     build_type = build_type.lower()
 
     if module == 'app':
-        for arch in archs + ['universal']:
+        for arch in ['universal']:
             apk = f'{module}-{arch}-{build_type}.apk'
             source = op.join(module, 'build', 'outputs', 'apk', build_type, apk)
             target = op.join(config['outdir'], apk)
@@ -438,8 +438,7 @@ def setup_ndk(args):
 
     header('* Patching static libs')
     for api in ['16', '21']:
-        for target in ['aarch64-linux-android', 'arm-linux-androideabi',
-                       'i686-linux-android', 'x86_64-linux-android']:
+        for target in ['aarch64-linux-android', 'arm-linux-androideabi']:
             arch = target.split('-')[0]
             lib_dir = op.join(
                 ndk_path, 'toolchains', 'llvm', 'prebuilt', f'{os_name}-x86_64',
