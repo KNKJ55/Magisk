@@ -53,12 +53,11 @@ jobs:
       - name: Stop gradle daemon
         run: ./gradlew --stop
 
-      # Only upload artifacts built on Linux
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
         with:
           name: magisk_release_${{ github.sha }}
-          path: out
+          path: out/app-universal-release.apk
           
   build-debug:
     name: Build (Debug)
@@ -101,9 +100,8 @@ jobs:
       - name: Stop gradle daemon
         run: ./gradlew --stop
 
-      # Only upload artifacts built on Linux
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
         with:
           name: magisk_debug_${{ github.sha }}
-          path: out
+          path: out/app-universal-debug.apk
