@@ -125,7 +125,6 @@ private class JobSchedulerWrapper(private val base: JobScheduler) : JobScheduler
 // being removed when running "remove unused resources"
 val shouldKeepResources = listOf(
     R.string.no_info_provided,
-    R.string.release_notes,
     R.string.invalid_update_channel,
     R.string.update_available,
     R.string.safetynet_api_error,
