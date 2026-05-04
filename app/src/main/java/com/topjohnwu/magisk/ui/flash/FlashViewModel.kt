@@ -63,15 +63,6 @@ class FlashViewModel : BaseViewModel() {
                     showReboot = false
                     MagiskInstaller.Uninstall(outItems, logItems).exec()
                 }
-                Const.Value.FLASH_MAGISK -> {
-                    if (Info.isEmulator)
-                        MagiskInstaller.Emulator(outItems, logItems).exec()
-                    else
-                        MagiskInstaller.Direct(outItems, logItems).exec()
-                }
-                Const.Value.FLASH_INACTIVE_SLOT -> {
-                    MagiskInstaller.SecondSlot(outItems, logItems).exec()
-                }
                 Const.Value.PATCH_FILE -> {
                     uri ?: return@launch
                     showReboot = false

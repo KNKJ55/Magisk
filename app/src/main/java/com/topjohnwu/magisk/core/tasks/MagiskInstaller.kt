@@ -374,8 +374,6 @@ abstract class MagiskInstallImpl protected constructor(
         return true
     }
 
-    private fun flashBoot() = "direct_install $installDir $srcBoot".sh().isSuccess
-
     private suspend fun postOTA(): Boolean {
         try {
             val bootctl = File.createTempFile("bootctl", null, context.cacheDir)
@@ -399,11 +397,6 @@ abstract class MagiskInstallImpl protected constructor(
     private fun Array<String>.fsh() = ShellUtils.fastCmd(shell, *this)
 
     protected fun doPatchFile(patchFile: Uri) = extractFiles() && handleFile(patchFile)
-
-    protected fun direct() = findImage() && extractFiles() && patchBoot() && flashBoot()
-
-    protected suspend fun secondSlot() =
-        findSecondary() && extractFiles() && patchBoot() && flashBoot() && postOTA()
 
     protected fun fixEnv() = extractFiles() && "fix_env $installDir".sh().isSuccess
 
@@ -452,27 +445,6 @@ abstract class MagiskInstaller(
         logs: MutableList<String>
     ) : MagiskInstaller(console, logs) {
         override suspend fun operations() = doPatchFile(uri)
-    }
-
-    class SecondSlot(
-        console: MutableList<String>,
-        logs: MutableList<String>
-    ) : MagiskInstaller(console, logs) {
-        override suspend fun operations() = secondSlot()
-    }
-
-    class Direct(
-        console: MutableList<String>,
-        logs: MutableList<String>
-    ) : MagiskInstaller(console, logs) {
-        override suspend fun operations() = direct()
-    }
-
-    class Emulator(
-        console: MutableList<String>,
-        logs: MutableList<String>
-    ) : MagiskInstaller(console, logs) {
-        override suspend fun operations() = fixEnv()
     }
 
     class Uninstall(

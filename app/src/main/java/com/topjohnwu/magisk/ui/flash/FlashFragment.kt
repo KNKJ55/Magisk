@@ -87,15 +87,6 @@ class FlashFragment : BaseUIFragment<FlashViewModel, FragmentFlashMd2Binding>() 
                 .setArguments(args.toBundle())
                 .createPendingIntent()
 
-        private fun flashType(isSecondSlot: Boolean) =
-            if (isSecondSlot) Const.Value.FLASH_INACTIVE_SLOT else Const.Value.FLASH_MAGISK
-
-        /* Flashing is understood as installing / flashing magisk itself */
-
-        fun flash(isSecondSlot: Boolean) = MainDirections.actionFlashFragment(
-            action = flashType(isSecondSlot)
-        )
-
         /* Patching is understood as injecting img files with magisk */
 
         fun patch(uri: Uri) = MainDirections.actionFlashFragment(

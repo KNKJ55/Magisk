@@ -13,7 +13,6 @@ import com.topjohnwu.magisk.core.Info
 import com.topjohnwu.magisk.data.repository.NetworkService
 import com.topjohnwu.magisk.di.AppContext
 import com.topjohnwu.magisk.events.MagiskInstallFileEvent
-import com.topjohnwu.magisk.events.dialog.SecondSlotWarningDialog
 import com.topjohnwu.magisk.ui.flash.FlashFragment
 import com.topjohnwu.magisk.utils.set
 import com.topjohnwu.superuser.Shell
@@ -28,7 +27,6 @@ class InstallViewModel(
 
     val isRooted = Shell.rootAccess()
     val skipOptions = Info.isEmulator || (Info.ramdisk && !Info.isFDE && Info.isSAR)
-    val noSecondSlot = !isRooted || Info.isPixel || Info.isVirtualAB || !Info.isAB || Info.isEmulator
 
     @get:Bindable
     var step = if (skipOptions) 1 else 0
@@ -46,9 +44,6 @@ class InstallViewModel(
                         if (code == Activity.RESULT_OK)
                             data = intent?.data
                     }.publish()
-                }
-                R.id.method_inactive_slot -> {
-                    SecondSlotWarningDialog().publish()
                 }
             }
         }
@@ -88,8 +83,6 @@ class InstallViewModel(
     fun install() {
         when (method) {
             R.id.method_patch -> FlashFragment.patch(data!!).navigate()
-            R.id.method_direct -> FlashFragment.flash(false).navigate()
-            R.id.method_inactive_slot -> FlashFragment.flash(true).navigate()
             else -> error("Unknown value")
         }
         state = State.LOADING

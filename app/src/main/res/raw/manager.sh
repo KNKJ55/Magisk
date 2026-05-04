@@ -41,28 +41,6 @@ fix_env() {
   chown -R 0:0 $MAGISKBIN
 }
 
-direct_install() {
-  echo "- Flashing new boot image"
-  flash_image $1/new-boot.img $2
-  case $? in
-    1)
-      echo "! Insufficient partition size"
-      return 1
-      ;;
-    2)
-      echo "! $2 is read only"
-      return 2
-      ;;
-  esac
-
-  rm -f $1/new-boot.img
-  fix_env $1
-  run_migrations
-  copy_sepolicy_rules
-
-  return 0
-}
-
 run_uninstaller() {
   rm -rf /dev/tmp
   mkdir -p /dev/tmp/install
