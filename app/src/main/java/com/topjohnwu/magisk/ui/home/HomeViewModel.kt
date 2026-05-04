@@ -14,7 +14,6 @@ import com.topjohnwu.magisk.events.OpenInappLinkEvent
 import com.topjohnwu.magisk.events.SnackbarEvent
 import com.topjohnwu.magisk.events.dialog.EnvFixDialog
 import com.topjohnwu.magisk.events.dialog.ManagerInstallDialog
-import com.topjohnwu.magisk.events.dialog.UninstallDialog
 import com.topjohnwu.magisk.ktx.await
 import com.topjohnwu.magisk.utils.asText
 import com.topjohnwu.magisk.utils.set
@@ -113,8 +112,6 @@ class HomeViewModel(
     }
 
     fun onLinkPressed(link: String) = OpenInappLinkEvent(link).publish()
-
-    fun onDeletePressed() = UninstallDialog().publish()
 
     fun onManagerPressed() = when (state) {
         State.LOADED -> withExternalRW { ManagerInstallDialog().publish() }

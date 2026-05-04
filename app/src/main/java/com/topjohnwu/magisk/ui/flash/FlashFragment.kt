@@ -94,12 +94,6 @@ class FlashFragment : BaseUIFragment<FlashViewModel, FragmentFlashMd2Binding>() 
             additionalData = uri
         )
 
-        /* Uninstalling is understood as removing magisk entirely */
-
-        fun uninstall() = MainDirections.actionFlashFragment(
-            action = Const.Value.UNINSTALL
-        )
-
         /* Installing is understood as flashing modules / zips */
 
         fun installIntent(context: Context, file: Uri, id: Int = -1) = FlashFragmentArgs(
